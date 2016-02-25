@@ -36,7 +36,7 @@ deploy:
       ports: 5001
   gcr:
   - install-packages:
-      packages: jq
+      packages: google-cloud-sdk jq
   - script:
       name: gcr.io authentication
       code: |
