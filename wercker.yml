@@ -34,6 +34,24 @@ deploy:
       repository: markbirbeck/frontend
       cmd: "python /pipeline/source/app.py"
       ports: 5001
+  gcr:
+  - script:
+      name: install jq
+      code: wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.5rc1/jq-linux-x86_64-static && chmod a+x /usr/local/bin/jq
+  - script:
+      name: gcr.io authentication
+      code: |
+        gcloud auth activate-refresh-token $GCLOUD_ACCOUNT $GCLOUD_REFRESH_TOKEN
+        gcloud docker --authorize-only
+        export GCR_AUTH_TOKEN=$(cat $HOME/.dockercfg | jq --raw-output '.["https://gcr.io"].auth' | base64 --decode | cut -d ':' -f2)
+  - pip-install
+  - internal/docker-push:
+      username: _token
+      password: $GCR_AUTH_TOKEN
+      repository: gcr.io/dash-audio/frontend
+      registry: https://gcr.io
+      cmd: "python /pipeline/source/app.py"
+      ports: 5001
   aws-ecs:
   - script:
       name: copy
