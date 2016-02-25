@@ -36,7 +36,7 @@ deploy:
       ports: 5001
   gcr:
   - install-packages:
-      packages: curl
+      packages: curl lsb_release
   - script:
       name: add gcloud references
       code: |
