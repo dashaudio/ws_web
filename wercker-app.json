@@ -4,7 +4,7 @@
       "links": [
         "api"
       ],
-      "image": "markbirbeck/frontend",
+      "image": "gcr.io/dash-audio/frontend",
       "essential": true,
       "portMappings": [
         {
